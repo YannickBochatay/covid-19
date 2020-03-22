@@ -7,9 +7,7 @@ const exclude = ["sursaud_cl_age_corona", "dep", "date_de_passage"]
 
 export default withDataContext(class Parameter extends React.Component {
 
-    state = { parameter : "" }
-
-    handleChange = parameter => this.setState({ parameter })
+    handleChange = parameter => this.props.updateSerie({ parameter })
 
     getOptions() {
         return this.props.metadata
@@ -23,7 +21,7 @@ export default withDataContext(class Parameter extends React.Component {
                 <Form.Label>Paramètre</Form.Label>
                 <Select
                     options={ this.getOptions() }
-                    value={ this.state.parameter }
+                    value={ this.props.getSerie().parameter }
                     onChange={ this.handleChange }
                 />
             </Form.Group>

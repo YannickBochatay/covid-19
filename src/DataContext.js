@@ -6,6 +6,6 @@ export default DataContext
 
 export const withDataContext = Component => props => (
     <DataContext.Consumer>
-        { ({ data, metadata }) => <Component data={ data } metadata={ metadata }/> }
+        { context => <Component { ...context }/> }
     </DataContext.Consumer>
 )

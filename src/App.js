@@ -6,11 +6,35 @@ import DataContext from "./DataContext"
 import Chart from "./Chart"
 import Form from "./Form"
 
+const defaultSerie = {
+  deps : [],
+  dateRange : { startDate : null, endDate : null },
+  parameter : ""
+}
+
 class App extends React.Component {
 
   state = {
     data : [],
-    metadata : []
+    metadata : [],
+    series : [defaultSerie],
+    editingSerie : 0
+  }
+
+  getSerie = () => {
+    const { series, editingSerie } = this.state
+    
+    return series[editingSerie] || defaultSerie    
+  }
+
+  updateSerie = serie => {
+    const series = [...this.state.series]
+
+    serie = { ...series[this.state.editingSerie], ...serie }
+
+    series.splice(this.state.editingSerie, 1, serie)
+
+    this.setState({ series })
   }
 
   async fetchData() {
@@ -51,8 +75,14 @@ class App extends React.Component {
   }
 
   render() {
+
     return (
-      <DataContext.Provider value={ this.state }>
+      <DataContext.Provider
+        value={ {
+          ...this.state,
+          getSerie : this.getSerie,
+          updateSerie : this.updateSerie
+        } }>
         <Container fluid>
           <Row>
             <Col>
@@ -62,12 +92,6 @@ class App extends React.Component {
               <Chart/>
             </Col>
           </Row>
-          <h6>
-            Source&nbsp;:&nbsp;
-            <a href="https://www.data.gouv.fr/fr/datasets/donnees-relatives-a-lepidemie-du-covid-19/">
-              https://www.data.gouv.fr/fr/datasets/donnees-relatives-a-lepidemie-du-covid-19/
-            </a>
-          </h6>
         </Container>
       </DataContext.Provider>
     )

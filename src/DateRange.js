@@ -6,13 +6,9 @@ import moment from "moment"
 
 export default withDataContext(class DateRange extends React.Component {
 
-    state = {
-        startDate : null,
-        endDate : null,
-        focusedInput : null
-    }
+    state = { focusedInput : null }
 
-    handleChange = ({ startDate, endDate }) => this.setState({ startDate, endDate })
+    handleChange = dateRange => this.props.updateSerie({ dateRange })
 
     handleFocus = focusedInput => this.setState({ focusedInput })
 
@@ -26,26 +22,30 @@ export default withDataContext(class DateRange extends React.Component {
         )
         
         return {
-            minDate : dates.length ? moment(Math.min(...dates)) : moment(),
-            maxDate : dates.length ? moment(Math.max(...dates)) : moment()
+            minDate : dates.size ? moment(Math.min(...dates)) : moment(),
+            maxDate : dates.size ? moment(Math.max(...dates)) : moment()
         }
     }
 
     render() {
+
+        const { dateRange } = this.props.getSerie()
+        const maxRange = this.getMaxRange()
 
         return (
             <Form.Group controlId="dateRange">
                 <Form.Label>Période</Form.Label>
                 <br/>
                 <DateRangePicker
-                    startDate={ this.state.startDate }
+                    startDate={ dateRange.startDate }
                     startDateId="start_date"
-                    endDate={ this.state.endDate }
+                    endDate={ dateRange.endDate }
                     endDateId="end_date"
                     onDatesChange={ this.handleChange }
                     focusedInput={ this.state.focusedInput }
                     onFocusChange={ this.handleFocus }
-                    { ...this.getMaxRange() }
+                    isOutsideRange={ date => date < maxRange.minDate || date > maxRange.maxDate }
+                    { ...maxRange }
                 />
             </Form.Group>
         )
