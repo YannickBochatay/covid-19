@@ -3,6 +3,8 @@ import Form from "react-bootstrap/Form"
 import { withDataContext } from "./DataContext"
 import Select from "react-select"
 
+const exclude = ["sursaud_cl_age_corona", "dep", "date_de_passage"]
+
 export default withDataContext(class Parameter extends React.Component {
 
     state = { parameter : "" }
@@ -11,13 +13,11 @@ export default withDataContext(class Parameter extends React.Component {
 
     getOptions() {
         return this.props.metadata
-            .filter(meta => meta.Colonne !== "dep" && meta.Colonne !== "date_de_passage")
+            .filter(meta => !exclude.includes(meta.Colonne))
             .map(meta => ({ label : meta.Description, value : meta.Colonne }))
     }
 
     render() {
-        console.log(this.getOptions())
-
         return (
             <Form.Group controlId="parameter">
                 <Form.Label>Paramètre</Form.Label>
