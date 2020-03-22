@@ -2,22 +2,25 @@ import React from 'react';
 import Container from "react-bootstrap/Container"
 import Col from "react-bootstrap/Col"
 import Row from "react-bootstrap/Row"
+import DataContext from "./DataContext"
+import Chart from "./Chart"
+import Form from "./Form"
 
 class App extends React.Component {
 
   state = {
-    data : null,
-    metadata : null
+    data : [],
+    metadata : []
   }
 
   async fetchData() {
     const res = await fetch("data.csv")
     const csv = await res.text()
     const rows = csv.split(/[\n\r]+/)
-    const keys = rows.shift().split(/,/)
+    const keys = rows.shift().split(/\s*,/)
 
     return rows.map(row => {
-      const fields = row.split(/,/)
+      const fields = row.split(/\s*,/)
       return keys.reduce((acc, cur, i) => {
         acc[cur] = fields[i]
         return acc
@@ -30,10 +33,10 @@ class App extends React.Component {
     const csv = await res.text()
     const rows = csv.split(/[\n\r]+/)
     rows.shift()
-    const keys = rows.shift().split(/;/)
+    const keys = rows.shift().split(/\s*;/)
 
     return rows.map(row => {
-      const fields = row.split(/;/)
+      const fields = row.split(/\s*;/)
       return keys.reduce((acc, cur, i) => {
         acc[cur] = fields[i]
         return acc
@@ -49,17 +52,25 @@ class App extends React.Component {
 
   render() {
     return (
-      <Container fluid>
-        <Row>
-          <Col>Bienvenue</Col>
-        </Row>
-        <Row>
-          <Col>
-            <pre>{ JSON.stringify(this.state.metadata, null, 4) }</pre>
-            <pre>{ JSON.stringify(this.state.data, null, 4) }</pre>
-          </Col>
-        </Row>
-      </Container>
+      <DataContext.Provider value={ this.state }>
+        <Container fluid>
+          <h1>Graphique interactif des données relatives à l'épidémie du covid-19 </h1>
+          <Row>
+            <Col>
+              <Form/>
+            </Col>
+            <Col>
+              <Chart/>
+            </Col>
+          </Row>
+          <h6>
+            Source&nbsp;:&nbsp;
+            <a href="https://www.data.gouv.fr/fr/datasets/donnees-relatives-a-lepidemie-du-covid-19/">
+              https://www.data.gouv.fr/fr/datasets/donnees-relatives-a-lepidemie-du-covid-19/
+            </a>
+          </h6>
+        </Container>
+      </DataContext.Provider>
     )
   }
 }

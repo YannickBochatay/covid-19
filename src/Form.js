@@ -1,0 +1,17 @@
+import React from "react"
+import BsForm from "react-bootstrap/Form"
+import Departement from "./Departement"
+import Parameter from "./Parameter"
+
+export default class Form extends React.Component {
+
+    render() {
+
+        return (
+            <BsForm>
+                <Departement/>
+                <Parameter/>
+            </BsForm>
+        )
+    }
+}
