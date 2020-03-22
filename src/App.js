@@ -10,20 +10,41 @@ class App extends React.Component {
     metadata : null
   }
 
-  async componentDidMount() {
+  async fetchData() {
     const res = await fetch("data.csv")
     const csv = await res.text()
-    const rows = csv.split(/[\n\r]/)
+    const rows = csv.split(/[\n\r]+/)
     const keys = rows.shift().split(/,/)
-    const data = rows.map(row => {
+
+    return rows.map(row => {
       const fields = row.split(/,/)
       return keys.reduce((acc, cur, i) => {
         acc[cur] = fields[i]
         return acc
       }, {})
     })
+  }
 
-    this.setState({ data })
+  async fetchMetaData() {
+    const res = await fetch("metadata.csv")
+    const csv = await res.text()
+    const rows = csv.split(/[\n\r]+/)
+    rows.shift()
+    const keys = rows.shift().split(/;/)
+
+    return rows.map(row => {
+      const fields = row.split(/;/)
+      return keys.reduce((acc, cur, i) => {
+        acc[cur] = fields[i]
+        return acc
+      }, {})
+    })
+  }
+
+  async componentDidMount() {
+    const data = await this.fetchData()
+    const metadata = await this.fetchMetaData()
+    this.setState({ data, metadata })
   }
 
   render() {
@@ -34,6 +55,7 @@ class App extends React.Component {
         </Row>
         <Row>
           <Col>
+            <pre>{ JSON.stringify(this.state.metadata, null, 4) }</pre>
             <pre>{ JSON.stringify(this.state.data, null, 4) }</pre>
           </Col>
         </Row>
