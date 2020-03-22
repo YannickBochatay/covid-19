@@ -54,7 +54,6 @@ class App extends React.Component {
     return (
       <DataContext.Provider value={ this.state }>
         <Container fluid>
-          <h1>Graphique interactif des données relatives à l'épidémie du covid-19 </h1>
           <Row>
             <Col>
               <Form/>
