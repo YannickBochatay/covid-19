@@ -16,7 +16,7 @@ class App extends React.Component {
   async fetchData() {
     const res = await fetch("data.csv")
     const csv = await res.text()
-    const rows = csv.split(/[\n\r]+/)
+    const rows = csv.split(/[\n\r]+/).filter(row => row)
     const keys = rows.shift().split(/\s*,/)
 
     return rows.map(row => {
@@ -31,7 +31,7 @@ class App extends React.Component {
   async fetchMetaData() {
     const res = await fetch("metadata.csv")
     const csv = await res.text()
-    const rows = csv.split(/[\n\r]+/)
+    const rows = csv.split(/[\n\r]+/).filter(row => row)
     rows.shift()
     const keys = rows.shift().split(/\s*;/)
 
@@ -59,7 +59,7 @@ class App extends React.Component {
             <Col>
               <Form/>
             </Col>
-            <Col>
+            <Col xs={ 9 }>
               <Chart/>
             </Col>
           </Row>

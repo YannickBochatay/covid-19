@@ -26,13 +26,12 @@ export default withDataContext(class DateRange extends React.Component {
         )
         
         return {
-            startDate : dates.length ? moment(Math.min(...dates)) : moment(),
-            endDate : dates.length ? moment(Math.max(...dates)) : moment()
+            minDate : dates.length ? moment(Math.min(...dates)) : moment(),
+            maxDate : dates.length ? moment(Math.max(...dates)) : moment()
         }
     }
 
     render() {
-        const maxRange = this.getMaxRange()
 
         return (
             <Form.Group controlId="dateRange">
@@ -46,8 +45,7 @@ export default withDataContext(class DateRange extends React.Component {
                     onDatesChange={ this.handleChange }
                     focusedInput={ this.state.focusedInput }
                     onFocusChange={ this.handleFocus }
-                    minDate={ maxRange.startDate }
-                    maxDate={ maxRange.endDate }
+                    { ...this.getMaxRange() }
                 />
             </Form.Group>
         )
