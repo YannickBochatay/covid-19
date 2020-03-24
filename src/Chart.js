@@ -9,18 +9,21 @@ export default withDataContext(class Chart extends React.Component {
     setSeries = () => {
         const { data, zones, dateRange, parameter } = this.props
         
-        return zones.map(zone => ({
-            name :  zone?.label,
-            data : data
-                    .filter(item => item.code === zone?.value)
-                    .filter(item => moment(item.date) >= dateRange?.startDate)
-                    .filter(item => moment(item.date) <= dateRange?.endDate)
-                    .sort((a, b) => new Date(a.date) > new Date(b.date))
-                    .map(item => [
-                        Number(new Date(item.date)),
-                        Number(item[parameter?.value])
-                    ])
-        }))
+        return zones?.map(zone => {            
+            return {
+                name :  zone?.label,
+                data : data
+                        .filter(item => item.code === zone?.value)
+                        .filter(item => moment(item.date) >= dateRange?.startDate)
+                        .filter(item => moment(item.date) <= dateRange?.endDate)
+                        .filter(item => Number(item[parameter?.value]))
+                        .filter((item, i, arr) => arr.findIndex(el => el.date === item.date) === i)
+                        .map(item => [
+                            Number(new Date(item.date)),
+                            Number(item[parameter?.value])
+                        ])
+            }
+        })
     }
 
     setConfig() {
@@ -28,8 +31,7 @@ export default withDataContext(class Chart extends React.Component {
         const param = options.find(({ value }) => value === this.props.parameter?.value)?.label
 
         return {
-            title: { text: "COVID19 - " + param },
-            subtitle: { text: 'Source : www.data.gouv.fr/fr/datasets/chiffres-cles-concernant-lepidemie-de-covid19-en-france' },
+            title: { text: param },
             yAxis: {
                 title: { text: 'Nombre de cas' }
             },
@@ -46,24 +48,11 @@ export default withDataContext(class Chart extends React.Component {
             credits: {
                 enabled: false
             },
-            series: this.setSeries(),
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center'
-                        }
-                    }
-                }]
-            }
+            series: this.setSeries()
         }
     }
 
     render() {
-        return <Highcharts config={ this.setConfig() }/>
+        return <Highcharts config={ this.setConfig() } { ...this.props }/>
     }
 })
