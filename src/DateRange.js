@@ -8,7 +8,7 @@ export default withDataContext(class DateRange extends React.Component {
 
     state = { focusedInput : null }
 
-    handleChange = dateRange => this.props.updateSerie({ dateRange })
+    handleChange = dateRange => this.props.setKeyValue("dateRange", dateRange)
 
     handleFocus = focusedInput => this.setState({ focusedInput })
 
@@ -17,19 +17,19 @@ export default withDataContext(class DateRange extends React.Component {
         const { data } = this.props
 
         const dates = new Set(data
-            .map(entry => Number(new Date(entry.date_de_passage)))
+            .map(entry => Number(new Date(entry.date)))
             .filter(date => !isNaN(date))
         )
         
         return {
-            minDate : dates.size ? moment(Math.min(...dates)) : moment(),
-            maxDate : dates.size ? moment(Math.max(...dates)) : moment()
+            minDate : moment(dates.size ? Math.min(...dates) : null).startOf("day"),
+            maxDate : moment(dates.size ? Math.max(...dates) : null).endOf("day")
         }
     }
 
     render() {
 
-        const { dateRange } = this.props.getSerie()
+        const { dateRange } = this.props
         const maxRange = this.getMaxRange()
 
         return (

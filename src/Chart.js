@@ -1,40 +1,40 @@
 import React from "react"
 import Highcharts from "react-highcharts"
 import { withDataContext } from "./DataContext"
+import { options } from "./Parameter"
 import moment from "moment"
 
 export default withDataContext(class Chart extends React.Component {
 
-    setSerie = serie => {
-        const { data, metadata } = this.props
-
-        return {
-            name : metadata.find(({ Colonne }) => Colonne === serie.parameter?.value)?.Description,
+    setSeries = () => {
+        const { data, zones, dateRange, parameter } = this.props
+        
+        return zones.map(zone => ({
+            name :  zone?.label,
             data : data
-                    .filter(item => item.dep === serie.deps?.value)
-                    .filter(item => moment(item.date_de_passage) >= serie.dateRange?.startDate)
-                    .filter(item => moment(item.date_de_passage) <= serie.dateRange?.endDate)
+                    .filter(item => item.code === zone?.value)
+                    .filter(item => moment(item.date) >= dateRange?.startDate)
+                    .filter(item => moment(item.date) <= dateRange?.endDate)
+                    .sort((a, b) => new Date(a.date) > new Date(b.date))
                     .map(item => [
-                        new Date(item.date_de_passage),
-                        Number(item[serie.parameter?.value])
+                        Number(new Date(item.date)),
+                        Number(item[parameter?.value])
                     ])
-        }
+        }))
     }
 
     setConfig() {
 
+        const param = options.find(({ value }) => value === this.props.parameter?.value)?.label
+
         return {
-            title: { text: 'Données relatives à l\'épidémie du covid-19' },
-            subtitle: { text: 'Source : www.data.gouv.fr/fr/datasets/donnees-relatives-a-lepidemie-du-covid-19' },
+            title: { text: "COVID19 - " + param },
+            subtitle: { text: 'Source : www.data.gouv.fr/fr/datasets/chiffres-cles-concernant-lepidemie-de-covid19-en-france' },
             yAxis: {
                 title: { text: 'Nombre de cas' }
             },
             xAxis: {
-                type: 'datetime',
-                dateTimeLabelFormats: {
-                    month: '%e. %b',
-                    year: '%b'
-                }
+                type: 'datetime'
             },
             plotOptions: {
                 series: {
@@ -43,7 +43,10 @@ export default withDataContext(class Chart extends React.Component {
                     }
                 }
             },
-            series: this.props.series.map(this.setSerie),
+            credits: {
+                enabled: false
+            },
+            series: this.setSeries(),
             responsive: {
                 rules: [{
                     condition: {
