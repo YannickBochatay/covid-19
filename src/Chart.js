@@ -50,10 +50,6 @@ export default withDataContext(class Chart extends React.Component {
             credits: {
                 enabled: false
             },
-            tooltip: {
-                backgroundColor: '#2a2a2b',
-                color:"#bbb"
-            },
             legend: {
                 itemStyle: {
                     color: '#bbb'
