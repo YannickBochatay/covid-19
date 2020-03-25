@@ -4393,9 +4393,9 @@ hex-color-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
 
-highcharts@^6.0.4:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-6.2.0.tgz#2a6d04652eb43c66f462ca7e2d2808f1f2782b61"
+highcharts-react-official@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/highcharts-react-official/-/highcharts-react-official-3.0.0.tgz#f2e81ed59d299c3473a0dd5ba5df24028875226a"
 
 highcharts@^8.0.4:
   version "8.0.4"
@@ -7620,12 +7620,6 @@ react-dom@^16.13.1:
 react-error-overlay@^6.0.7:
   version "6.0.7"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
-
-react-highcharts@^16.1.0:
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/react-highcharts/-/react-highcharts-16.1.0.tgz#aa2d451171197462e07fa8652a42bac43da6068a"
-  dependencies:
-    highcharts "^6.0.4"
 
 react-input-autosize@^2.2.2:
   version "2.2.2"

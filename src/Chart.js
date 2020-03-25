@@ -1,5 +1,6 @@
 import React from "react"
-import Highcharts from "react-highcharts"
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
 import { withDataContext } from "./DataContext"
 import { options } from "./Parameter"
 import moment from "moment"
@@ -32,6 +33,7 @@ export default withDataContext(class Chart extends React.Component {
 
         return {
             title: { text: param },
+            chart: { width : null, height : this.props.chartHeight },
             yAxis: {
                 title: { text: 'Nombre de cas' }
             },
@@ -53,6 +55,12 @@ export default withDataContext(class Chart extends React.Component {
     }
 
     render() {
-        return <Highcharts config={ this.setConfig() } { ...this.props }/>
+        return (
+            <HighchartsReact
+                highcharts={ Highcharts }
+                options={ this.setConfig() }
+                { ...this.props }
+            />
+        )
     }
 })
