@@ -2,6 +2,8 @@ import React from 'react';
 import Container from "react-bootstrap/Container"
 import Col from "react-bootstrap/Col"
 import Row from "react-bootstrap/Row"
+import Alert from "react-bootstrap/Alert"
+import Spinner from 'reactjs-simple-spinner'
 import DataContext from "./DataContext"
 import Chart from "./Chart"
 import Form from "./Form"
@@ -14,7 +16,9 @@ class App extends React.Component {
     zones : [{ value : "FRA", label : "France" }],
     dateRange : { startDate : moment("2020-03-01"), endDate : moment() },
     parameter : { value : "casConfirmes", label : "Nombre de cas confirmés" },
-    chartHeight : null
+    chartHeight : null,
+    isFetching : false,
+    fetchError : null
   }
 
   divChart = React.createRef()
@@ -26,15 +30,24 @@ class App extends React.Component {
 
   async componentDidMount() {
     const chartHeight = this.divChart?.current?.getBoundingClientRect().height
-    this.setState({ chartHeight })
+    this.setState({ chartHeight, isFetching : true })
 
-    const data = await this.fetchData()
-    this.setState({ data })
+    try {
+      const data = await this.fetchData()
+      this.setState({ data, isFetching : false })
+    } catch (e) {
+      this.setState({
+        fetchError : "Problème de chargement des données",
+        isFetching : false
+      })
+    }
   }
 
   setKeyValue = (key, value) => this.setState({ [key] : value })
 
   render() {
+
+    const { isFetching, fetchError } = this.state
 
     return (
       <DataContext.Provider
@@ -56,7 +69,9 @@ class App extends React.Component {
             <Col><Form/><br/></Col>
           </Row>
           <div className="chart" ref={ this.divChart }>
-            <Chart/>
+            { fetchError && <Alert variant="danger">{ fetchError }</Alert> }
+            { isFetching ? <Spinner size="large"/> : null }
+            { !fetchError && !isFetching ? <Chart/> : null }
           </div>
           <div className="source">
             <small>
