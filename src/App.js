@@ -12,7 +12,7 @@ class App extends React.Component {
   state = {
     data : [],
     zones : [{ value : "FRA", label : "France" }],
-    dateRange : { startDate : moment("2020-02-15"), endDate : moment() },
+    dateRange : { startDate : moment("2020-03-01"), endDate : moment() },
     parameter : { value : "casConfirmes", label : "Nombre de cas confirmés" },
     chartHeight : null
   }
