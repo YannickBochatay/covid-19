@@ -1,3 +1,9 @@
+body {
+    background-color: #2a2a2b;
+}
+h3, label, small {
+    color: #bbb;
+}
 .DateInput_input {
     font-size:16px;
     padding:6px 25px;

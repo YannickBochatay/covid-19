@@ -32,10 +32,10 @@ export default withDataContext(class Chart extends React.Component {
         const param = options.find(({ value }) => value === this.props.parameter?.value)?.label
 
         return {
-            title: { text: param },
+            title: { text: "" },
             chart: { width : null, height : this.props.chartHeight },
             yAxis: {
-                title: { text: 'Nombre de cas' }
+                title: { text: param }
             },
             xAxis: {
                 type: 'datetime'
@@ -49,6 +49,18 @@ export default withDataContext(class Chart extends React.Component {
             },
             credits: {
                 enabled: false
+            },
+            tooltip: {
+                backgroundColor: '#2a2a2b',
+                color:"#bbb"
+            },
+            legend: {
+                itemStyle: {
+                    color: '#bbb'
+                },
+                itemHoverStyle:{
+                    color: '#fff'
+                }
             },
             series: this.setSeries()
         }
