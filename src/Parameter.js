@@ -7,8 +7,11 @@ export const options = [{
     label : "Nombre de cas confirmés",
     value : "casConfirmes"
 }, {
-    label : "Nombre d'hospitalisations'",
+    label : "Nombre d'hospitalisations",
     value : "hospitalises"
+}, {
+    label : "Nombre d'admissions en réanimation",
+    value : "reanimation"
 }, {
     label : "Nombre de décès",
     value : "deces"
