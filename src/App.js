@@ -7,6 +7,7 @@ import Spinner from 'reactjs-simple-spinner'
 import DataContext from "./DataContext"
 import Chart from "./Chart"
 import Form from "./Form"
+import Twitter from "./Twitter"
 import moment from "moment"
 
 class App extends React.Component {
@@ -62,7 +63,6 @@ class App extends React.Component {
               <h3>
                 Chiffres-clés concernant l'épidémie de COVID19 en France
               </h3>
-              <br/>
             </Col>
           </Row>
           <Row>
@@ -73,8 +73,9 @@ class App extends React.Component {
             { isFetching ? <Spinner size="large"/> : null }
             { !fetchError && !isFetching ? <Chart/> : null }
           </div>
-          <div className="source">
-            <small>
+          <div className="footer">
+            <Twitter/>
+            <small className="source">
               Source&nbsp;:&nbsp;
                 <a href="https://www.data.gouv.fr/fr/datasets/chiffres-cles-concernant-lepidemie-de-covid19-en-france">
                 https://www.data.gouv.fr/fr/datasets/chiffres-cles-concernant-lepidemie-de-covid19-en-france
