@@ -30,7 +30,7 @@ export default withDataContext(class Chart extends React.Component {
             const bestData = dataSources[bestSource] || []
 
             return {
-                name :  zone?.label + " (source : " + bestSource + ")",
+                name :  zone?.label + " (données " + bestSource + ")",
                 data : bestData.map(item => [Number(new Date(item.date)), Number(item[parameter?.value])] )
             }
         })
