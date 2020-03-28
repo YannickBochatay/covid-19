@@ -10,19 +10,28 @@ export default withDataContext(class Chart extends React.Component {
     setSeries = () => {
         const { data, zones, dateRange, parameter } = this.props
         
-        return zones?.map(zone => {            
+        return zones?.map(zone => {
+
+            const dataZone = data
+                .filter(item => item.code === zone?.value)
+                .filter(item => moment(item.date) >= dateRange?.startDate)
+                .filter(item => moment(item.date) <= dateRange?.endDate)
+                .filter(item => Number(item[parameter?.value]))
+
+            const dataSources = dataZone.reduce((map, item) => {
+                if (!(item.sourceType in map)) map[item.sourceType] = []
+                map[item.sourceType].push(item)
+                return map
+            }, {})
+
+            const sourceTypes = Object.keys(dataSources)
+            const maxLength = Math.max(...sourceTypes.map(sourceType => dataSources[sourceType].length))
+            const bestSource = sourceTypes.find(sourceType => dataSources[sourceType].length === maxLength)
+            const bestData = dataSources[bestSource] || []
+
             return {
-                name :  zone?.label,
-                data : data
-                        .filter(item => item.code === zone?.value)
-                        .filter(item => moment(item.date) >= dateRange?.startDate)
-                        .filter(item => moment(item.date) <= dateRange?.endDate)
-                        .filter(item => Number(item[parameter?.value]))
-                        .filter((item, i, arr) => arr.findIndex(el => el.date === item.date) === i)
-                        .map(item => [
-                            Number(new Date(item.date)),
-                            Number(item[parameter?.value])
-                        ])
+                name :  zone?.label + " (source : " + bestSource + ")",
+                data : bestData.map(item => [Number(new Date(item.date)), Number(item[parameter?.value])] )
             }
         })
     }
