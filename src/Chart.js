@@ -44,7 +44,8 @@ export default withDataContext(class Chart extends React.Component {
             title: { text: "" },
             chart: { width : null, height : this.props.chartHeight },
             yAxis: {
-                title: { text: param }
+                title: { text: param },
+                type: this.props.scale
             },
             xAxis: {
                 type: 'datetime'

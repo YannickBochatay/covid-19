@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row"
 import Zones from "./Zones"
 import Parameter from "./Parameter"
 import DateRange from "./DateRange"
+import Scale from "./Scale"
 
 export default class Form extends React.Component {
 
@@ -13,9 +14,10 @@ export default class Form extends React.Component {
         return (
             <BsForm>
                 <Row>
-                    <Col md={ 4 }><Zones/></Col>
-                    <Col md={ 4 }><Parameter/></Col>
-                    <Col md={ 4 }><DateRange/></Col>
+                    <Col md={ 3 }><Zones/></Col>
+                    <Col md={ 3 }><Parameter/></Col>
+                    <Col md={ 3 }><DateRange/></Col>
+                    <Col md={ 3 }><Scale/></Col>
                 </Row>
             </BsForm>
         )

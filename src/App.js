@@ -17,6 +17,7 @@ class App extends React.Component {
     zones : [{ value : "FRA", label : "France" }],
     dateRange : { startDate : moment("2020-03-01"), endDate : moment() },
     parameter : { value : "casConfirmes", label : "Nombre de cas confirmés" },
+    scale : "linear",
     chartHeight : null,
     isFetching : false,
     fetchError : null
