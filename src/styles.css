@@ -4,6 +4,9 @@ body {
 h3, label, small {
     color: #bbb;
 }
+.btn-group > .btn.active {
+    z-index:auto;
+}
 .DateInput_input {
     font-size:16px;
     padding:5px 25px;
