@@ -4,14 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
 import "highcharts/css/themes/dark-unica.css"
-// import "highcharts/css/themes/sand-signika.css"
-// import "highcharts/css/themes/grid-light.css"
 import './styles.css'
 import App from './App';
+import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
   document.getElementById('root')
-);
+)
+
+serviceWorker.register()
