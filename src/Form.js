@@ -14,10 +14,10 @@ export default class Form extends React.Component {
         return (
             <BsForm>
                 <Row>
-                    <Col md={ 3 }><Zones/></Col>
-                    <Col md={ 3 }><Parameter/></Col>
-                    <Col md={ 3 }><DateRange/></Col>
-                    <Col md={ 3 }><Scale/></Col>
+                    <Col lg={ 3 }><Zones/></Col>
+                    <Col lg={ 3 }><Parameter/></Col>
+                    <Col lg={ 3 }><DateRange/></Col>
+                    <Col lg={ 3 }><Scale/></Col>
                 </Row>
             </BsForm>
         )

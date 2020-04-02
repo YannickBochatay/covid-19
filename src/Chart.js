@@ -33,18 +33,21 @@ export default withDataContext(class Chart extends React.Component {
                 name :  zone?.label + " (données " + bestSource + ")",
                 data : bestData.map(item => [Number(new Date(item.date)), Number(item[parameter?.value])] )
             }
-        })
+        }) || []
     }
 
     setNewCasesSeries() {
 
         return this.setSeries().map(({ name, data}) => {
             let lastValue = 0
+            let lastDate = null
             return {
                 name,
                 data : data.map(([date, value]) => {
-                    const item = [value, value - lastValue]
+                    const nbDays = (date - lastDate) / (1000 * 3600 * 24)
+                    const item = [date, (value - lastValue) / nbDays]
                     lastValue = value
+                    lastDate = date
                     return item
                 })
             }
@@ -60,12 +63,11 @@ export default withDataContext(class Chart extends React.Component {
             title: { text: "" },
             chart: { width : null, height : this.props.chartHeight },
             yAxis: {
-                title: { text: param + scale === "newcases" ? " (nouveaux cas)" : "" },
+                title: { text: param + (scale === "newcases" ? " (nouveaux cas quotidiens)" : "") },
                 type: scale === "newcases" ? "linear" : scale
             },
             xAxis: {
-                title: { text: scale === "newcases" ? "Nombre de cas" : null },
-                type: scale === "newcases" ? "linear" : 'datetime'
+                type: 'datetime'
             },
             plotOptions: {
                 series: {
