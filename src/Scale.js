@@ -21,6 +21,7 @@ export default withDataContext(class Scale extends React.Component {
                 >
                     <ToggleButton variant="light" value="linear">linéaire</ToggleButton>
                     <ToggleButton variant="light" value="logarithmic">logarithmique</ToggleButton>
+                    <ToggleButton variant="light" value="newcases">nouveaux&nbsp;cas</ToggleButton>
                 </ToggleButtonGroup>
             </Form.Group>
         )

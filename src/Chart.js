@@ -36,19 +36,36 @@ export default withDataContext(class Chart extends React.Component {
         })
     }
 
+    setNewCasesSeries() {
+
+        return this.setSeries().map(({ name, data}) => {
+            let lastValue = 0
+            return {
+                name,
+                data : data.map(([date, value]) => {
+                    const item = [value, value - lastValue]
+                    lastValue = value
+                    return item
+                })
+            }
+        })
+    }
+
     setConfig() {
 
+        const { scale } = this.props
         const param = options.find(({ value }) => value === this.props.parameter?.value)?.label
 
         return {
             title: { text: "" },
             chart: { width : null, height : this.props.chartHeight },
             yAxis: {
-                title: { text: param },
-                type: this.props.scale
+                title: { text: param + scale === "newcases" ? " (nouveaux cas)" : "" },
+                type: scale === "newcases" ? "linear" : scale
             },
             xAxis: {
-                type: 'datetime'
+                title: { text: scale === "newcases" ? "Nombre de cas" : null },
+                type: scale === "newcases" ? "linear" : 'datetime'
             },
             plotOptions: {
                 series: {
@@ -68,7 +85,7 @@ export default withDataContext(class Chart extends React.Component {
                     color: '#fff'
                 }
             },
-            series: this.setSeries()
+            series: scale === "newcases" ? this.setNewCasesSeries() : this.setSeries()
         }
     }
 
