@@ -1,8 +1,11 @@
 body {
     background-color: #2a2a2b;
 }
-h3, label, small {
+h3, h6, label, small {
     color: #bbb;
+}
+h6 {
+    text-align: right;
 }
 .btn-group > .btn.active {
     z-index:auto;

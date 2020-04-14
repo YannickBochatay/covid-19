@@ -16,7 +16,7 @@ class App extends React.Component {
     data : [],
     zones : [{ value : "FRA", label : "France" }],
     dateRange : { startDate : moment("2020-03-01"), endDate : moment() },
-    parameter : { value : "casConfirmes", label : "Nombre de cas confirmés" },
+    parameters : [{ value : "decesCumul", label : "Décès hôpital + EHPAD" }],
     scale : "linear",
     chartHeight : null,
     isFetching : false,
@@ -67,8 +67,11 @@ class App extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Col><Form/><br/></Col>
+            <Col>
+              <Form/>
+            </Col>
           </Row>
+          <h6>Cliquez et faites glissez pour zoomer sur une période restreinte</h6>
           <div className="chart" ref={ this.divChart }>
             { fetchError && <Alert variant="danger">{ fetchError }</Alert> }
             { isFetching ? <Spinner size="large"/> : null }
