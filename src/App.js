@@ -14,16 +14,33 @@ class App extends React.Component {
 
   state = {
     data : [],
-    zones : [{ value : "FRA", label : "France" }],
-    dateRange : { startDate : moment("2020-03-01"), endDate : moment() },
-    parameters : [{ value : "decesCumul", label : "Décès hôpital + EHPAD" }],
-    scale : "linear",
+    zones : this.getLocalData("zones") || [{ value : "FRA", label : "France" }],
+    dateRange : this.getLocalData("dateRange") || { startDate : moment("2020-03-01"), endDate : moment() },
+    parameters : this.getLocalData("parameters") || [{ value : "decesCumul", label : "Décès hôpital + EHPAD" }],
+    scale : this.getLocalData("scale") || "linear",
     chartHeight : null,
     isFetching : false,
     fetchError : null
   }
 
   divChart = React.createRef()
+
+  getLocalData(key) {
+    try {
+      const data = localStorage.getItem(key)
+      return data && JSON.parse(data)
+    } catch (e) {
+      console.warn("Problème d'accès au localStorage")
+    }
+  }
+
+  setLocalData(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value))
+    } catch (e) {
+      console.warn("Problème d'accès au localStorage")
+    }
+  }
 
   async fetchData() {
     const res = await fetch("https://raw.githubusercontent.com/opencovid19-fr/data/master/dist/chiffres-cles.json")
@@ -45,7 +62,10 @@ class App extends React.Component {
     }
   }
 
-  setKeyValue = (key, value) => this.setState({ [key] : value })
+  setKeyValue = (key, value) => {
+    this.setState({ [key] : value })
+    this.setLocalData(key, value)
+  }
 
   render() {
 
